@@ -20,7 +20,7 @@ class TestAdd(unittest.TestCase):
 
     #check the event log has been updated
     def add_eventlog_test(self):
-        result = ticket.addEvent(eventID).addQuantity(quantity).log
+        result = ticket.addEvent(eventID).addQuantity(quantity).assertLogs()
         self.assertIsInstance(result, eventslog)
 
     #test for bad event ID
