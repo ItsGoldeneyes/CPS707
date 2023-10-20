@@ -14,7 +14,7 @@ logging.basicConfig(filename='daily.log',
 
 class Frontend:
     def __init__(self):
-        self.privledge = None
+        self.privilege = None
         self.run = True
         self.transaction_count=0
         self.backend = Backend()
@@ -23,12 +23,12 @@ class Frontend:
         '''
         Login as sales or admin
         '''
-        while self.privledge == None:
+        while self.privilege == None:
             userid = input("Enter the session type: ").lower()
             if userid == "sales":
-                self.privledge = "sales"
+                self.privilege = "sales"
             elif userid == "admin":
-                self.privledge = "admin"
+                self.privilege = "admin"
             else:
                 print("Invalid session type. Please ender admin or sales")
         
@@ -46,7 +46,7 @@ class Frontend:
             print("Failed to create the event.")
 
     def delete(self):
-        if not self.privledge:
+        if not self.privilege:
             print("You must be logged in as an admin to delete tickets from an event.")
             return
 
@@ -96,10 +96,10 @@ class Frontend:
         '''
         Logout of current session
         '''
-        if not self.privledge:
+        if not self.privilege:
             print("You are not logged in")
             return
-        self.privledge = None
+        self.privilege = None
         
         
     def add(self):
@@ -135,14 +135,30 @@ class Frontend:
         # Save transaction to log
         event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
         return event_transaction
-        
+    
+    def help(self):
+        #options for admin user
+        if (self.privilege == "admin"):
+            print(
+                "Enter: 'create' for new event | 'add' to add tickets | " +
+                    "'delete' to remove events or tickets |" +
+                    "'sell' if tickets have been sold to customer | 'return' to refund sold tickets |" +
+                    "'logout' to logout |'exit' to exit"
+                )
+        #options for sales user 
+        elif (self.privilege == "sales"):
+            print(
+                "Enter: " +
+                    "'sell' if tickets have been sold to customer | 'return' to refund sold tickets |" +
+                    "'logout' to logout |'exit' to exit"
+                )   
         
     def main(self):
         while self.run:
             command = input("please enter command: ").lower()
             
             # If not logged in, only allow login command
-            if not self.privledge:
+            if not self.privilege:
                 if command == "login":
                     self.login()
                 else:
@@ -152,7 +168,7 @@ class Frontend:
             # If logged in, allow all commands    
             match command:
                 case "login":
-                    if self.privledge:
+                    if self.privilege:
                         print("You are already logged in")
                 case "logout":
                     self.logout()
@@ -164,15 +180,8 @@ class Frontend:
                     self.delete()
                 case "sell":
                     self.sell()
-
-                    '''
-                case "delete":
-                    delete()
-                case "create":
-                    create()
-                case "sell"
-                    sell()
-                '''
+                case ("help" | 'h'):
+                    self.help()
                 case ("exit" | "quit" | "q" | 'x'):
                     self.run = False
                 case _ :
