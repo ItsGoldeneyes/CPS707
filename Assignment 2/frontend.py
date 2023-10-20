@@ -14,7 +14,7 @@ logging.basicConfig(filename='daily.log',
 
 class Frontend:
     def __init__(self):
-        self.privilege = None
+        self.privledge = None
         self.run = True
         self.transaction_count=0
         self.backend = Backend()
@@ -23,26 +23,83 @@ class Frontend:
         '''
         Login as sales or admin
         '''
-        while self.privilege == None:
+        while self.privledge == None:
             userid = input("Enter the session type: ").lower()
             if userid == "sales":
-                self.privilege = "sales"
+                self.privledge = "sales"
             elif userid == "admin":
-                self.privilege = "admin"
+                self.privledge = "admin"
             else:
                 print("Invalid session type. Please ender admin or sales")
         
         # Import current events file
-        
-        
+
+    def create_event(self):
+        event_name = input("Enter event name: ")
+        event_date = input("Enter event date (YYYYMMDD): ")
+        num_tickets = int(input("Enter number of tickets available: "))
+        # Call the backend function to create the event
+        result = self.backend.create_event(event_name, event_date, num_tickets)
+        if result:
+            print("Event created successfully.")
+        else:
+            print("Failed to create the event.")
+
+    def delete(self):
+        if not self.privledge:
+            print("You must be logged in as an admin to delete tickets from an event.")
+            return
+
+        event_name = input("Enter the name of the event: ")
+        ticket_number = int(input("Enter the ticket number to delete: "))
+
+        if not self.backend.event_exists(event_name):
+            print("Event not found or cannot delete tickets from it.")
+            return
+
+        if not self.backend.ticket_exists(event_name, ticket_number):
+            print("Ticket not found or cannot be deleted.")
+            return
+
+        confirmation = input(f"Are you sure you want to delete ticket {ticket_number} from the event '{event_name}'? (yes/no): ").lower()
+
+        if confirmation == 'yes':
+            result = self.backend.delete_ticket(event_name,ticket_number)
+
+            if result:
+                print(f"Ticket: {ticket_number} deleted successfully from event {event_name}")
+            else:
+                print(f"Failed to delete Ticket: {ticket_number} successfully from event {event_name}")
+
+        else:
+            print("Ticket deletion canceled")
+
+    def sell(self):
+        event_name = input("Enter the name of the event: ")
+        quantity = int(input("Enter the number of tickets to sell: "))
+
+        payment_method = input("Enter payment method: ")
+        card_number = input("Enter card number: ")
+
+        customer_name = input("Enter customer name: ")
+        customer_email = input("Enter customer email: ")
+
+        sale_result = self.backend.sell_tickets(event_name, quantity, payment_method, card_number, customer_name,
+                                                customer_email)
+
+        if sale_result["status"] == "success":
+            print(f"Sale Successful!")
+        else:
+            print("Sale failed")
+
     def logout(self):
         '''
         Logout of current session
         '''
-        if not self.privilege:
+        if not self.privledge:
             print("You are not logged in")
             return
-        self.privilege = None
+        self.privledge = None
         
         
     def add(self):
@@ -85,7 +142,7 @@ class Frontend:
             command = input("please enter command: ").lower()
             
             # If not logged in, only allow login command
-            if not self.privilege:
+            if not self.privledge:
                 if command == "login":
                     self.login()
                 else:
@@ -95,12 +152,19 @@ class Frontend:
             # If logged in, allow all commands    
             match command:
                 case "login":
-                    if self.privilege:
+                    if self.privledge:
                         print("You are already logged in")
                 case "logout":
                     self.logout()
                 case "add":
                     self.add()
+                case "create":
+                    self.create_event()
+                case "delete":
+                    self.delete()
+                case "sell":
+                    self.sell()
+
                     '''
                 case "delete":
                     delete()
@@ -109,28 +173,7 @@ class Frontend:
                 case "sell"
                     sell()
                 '''
-                #Exit case to exit the program
                 case ("exit" | "quit" | "q" | 'x'):
                     self.run = False
-
-                #help case to display options to user
-                case ("help" | 'h'):
-                    #options for admin user
-                    if (self.privilege == "admin"):
-                        print(
-                            "Enter: 'create' for new event | 'add' to add tickets | " +
-                               "'delete' to remove events or tickets |" +
-                               "'sell' if tickets have been sold to customer | 'return' to refund sold tickets |" +
-                                "'logout' to logout |'exit' to exit"
-                            )
-                    #options for sales user 
-                    elif (self.privilege == "sales"):
-                        print(
-                            "Enter: " +
-                               "'sell' if tickets have been sold to customer | 'return' to refund sold tickets |" +
-                                "'logout' to logout |'exit' to exit"
-                            )
-                        
-                #handles an invalid command line input
                 case _ :
                     print("not a valid command")
