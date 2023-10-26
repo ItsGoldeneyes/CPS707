@@ -143,12 +143,10 @@ class Frontend:
             num_tickets = input('enter number of tickets: ')
             valid_input = True
         
-        '''
-        result = self.backend.add_event(event_name, event_date, num_tickets)
-        if result == False:
-            print("Event already exists")
-            return
-        '''
+        # result = self.backend.add_event(event_name, event_date, num_tickets)
+        # if result == False:
+        #     print("Event already exists")
+        #     return
         
         print("Event added successfully")
         
