@@ -21,13 +21,16 @@ class Frontend:
         '''
         while self.privilege == None:
             userid = input("Enter the session type: ").lower()
-            quit()
             if userid == "sales":
                 self.privilege = "sales"
             elif userid == "admin":
                 self.privilege = "admin"
             else:
                 print("Invalid session type. Please ender admin or sales")
+                
+        # Create current events file if doesn't exist
+        with open("current_events.txt", "a") as f:
+            pass
         
         # Verify current events file and import it
         with open("current_events.txt", "r") as f:
@@ -212,6 +215,7 @@ class Frontend:
                 case ("help" | 'h'):
                     self.help()
                 case ("exit" | "quit" | "q" | 'x'):
+                    print("Exiting program...")
                     self.run = False
                 case _ :
                     print("not a valid command")

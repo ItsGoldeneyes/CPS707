@@ -1,32 +1,58 @@
+from subprocess import Popen, PIPE, STDOUT
 import subprocess
-from subprocess import PIPE
 
 RUN_DIR = r'Assignment 2\main.py'
 
-def setup():
-    proc = subprocess.Popen(['py', RUN_DIR], stdin=PIPE, stdout=PIPE, stderr=PIPE, text=True)
+TESTS = {
+    "login_admin": {
+        "input": ["login", "admin", "q"],
+        "expected_output": "please enter command: \
+                            Enter the session type: \
+                            please enter command: \
+                            Exiting program...\n"
+    },
+}
 
-    def communicate(input_text):
-        proc.stdin.write(input_text + '\n')
-        proc.stdin.flush()
 
-    def get_output():
-        while True:
-            output = proc.stdout.readline()
-            if output.strip() == "":
-                break
-            print(output)
 
-    get_output()  # Initial output
-
-    communicate('login')
-    get_output()
-
-    communicate('admin')
-    get_output()
-
-    communicate('q')
-    get_output()
-
+def runTest(input, test_name, expected_output):
+    print(f"Running {test_name} test...")
+    proc = Popen(['py', RUN_DIR], stdout=PIPE, stdin=PIPE, stderr=STDOUT, text=True)
+    output, error = proc.communicate("\n".join(input))
+    
+    if error:
+        print(f"{test_name} test failed!")
+        print(f"Error: {error}")
+        return
+    
+    if output == expected_output:
+        print(f"{test_name} test passed!")
+    else:
+        print(f"{test_name} test failed!")
+        print(f"Expected output: {expected_output}")
+        print(f"Actual output: {output}")
+    print("--------------------------------------------------")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 if __name__ == "__main__":
-    setup()
+    print("Running tests...")
+    print("--------------------------------------------------")
+    for test in TESTS:
+        runTest(TESTS[test]["input"], test, TESTS[test]["expected_output"])
+
+    
