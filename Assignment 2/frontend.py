@@ -21,6 +21,7 @@ class Frontend:
         '''
         while self.privilege == None:
             userid = input("Enter the session type: ").lower()
+            quit()
             if userid == "sales":
                 self.privilege = "sales"
             elif userid == "admin":
