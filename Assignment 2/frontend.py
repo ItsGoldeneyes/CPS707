@@ -104,10 +104,10 @@ class Frontend:
             return
         # Check transaction file for event
         for event in self.transactions:
-            if event_name.replace(' ', '_').ljust(15, "_") in event:
+            if "03 " + event_name.replace(' ', '_').ljust(15, "_") in event:
                 print("Event already exists.")
                 return
-            
+        # Check current events for event
         for event in self.current_events:
             if event_name.replace(' ', '_').ljust(15, "_") in event:
                 print("Event already exists.")
