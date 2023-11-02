@@ -129,8 +129,8 @@ class Frontend:
         '''
         valid_input = False
         # Test for valid input
-        event_name = input("Enter the name of the event: ")
-        ticket_number = int(input("Enter the ticket number to delete: "))
+        event_name = input("Enter event name: ")
+        ticket_number = int(input('Enter number of tickets: '))
         valid_input = True
 
         # if not self.backend.event_exists(event_name):
@@ -141,7 +141,7 @@ class Frontend:
         #     print("Ticket not found or cannot be deleted.")
         #     return
 
-        confirmation = input(f"Are you sure you want to delete ticket {ticket_number} from the event '{event_name}'? (yes/no): ").lower()
+        confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
 
         if confirmation == 'yes':
             # result = self.backend.delete_ticket(event_name,ticket_number)
@@ -190,34 +190,41 @@ class Frontend:
         if self.privilege == "admin":
             valid_input = False
             # Test for valid input
-            event_name = input("enter event name: ")
+            event_name = input("Enter event name: ")
             '''
             if condition not true:
                 print("Invalid event name")
                 continue
             '''
-            event_date = input('enter event date YYYYMMDD: ')
-            num_tickets = input('enter number of tickets: ')
-            if int(num_tickets) < 1:
+            event_date = input('Enter event date YYYYMMDD: ')
+            num_tickets = input('Enter number of tickets: ')
+            
+            #catch bad inputs for quanitity
+            try:
+                int_num_tick = int(num_tickets)
+                if int_num_tick < 1:
+                    print("Invalid quantity entered")
+                else:
+                    valid_input = True
+                    
+                    # result = self.backend.add_event(event_name, event_date, num_tickets)
+                    # if result == False:
+                    #     print("Event already exists")
+                    #     return
+                    
+                    print("Event added successfully")
+                    """ move to backend
+                    # Increment transaction count
+                    self.transaction_count += 1
+                    transaction_code = str(self.transaction_count).zfill(2)
+                    
+                    # Save transaction to log
+                    event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
+                    return event_transaction
+                """
+            except ValueError:
                 print("Invalid quantity entered")
-            else:
-                valid_input = True
-                
-                # result = self.backend.add_event(event_name, event_date, num_tickets)
-                # if result == False:
-                #     print("Event already exists")
-                #     return
-                
-                print("Event added successfully")
-                """ move to backend
-                # Increment transaction count
-                self.transaction_count += 1
-                transaction_code = str(self.transaction_count).zfill(2)
-                
-                # Save transaction to log
-                event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
-                return event_transaction
-            """
+            
     
     def help(self):
         '''

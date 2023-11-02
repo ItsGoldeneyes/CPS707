@@ -3,15 +3,16 @@ from subprocess import Popen, PIPE, STDOUT
 RUN_DIR = r'..\Assignment 2\main.py'
 
 greeting = "Please enter command: "
-loginout = "Enter the session type: "
+loginout = "Enter the session type: "+greeting
 logoutout = "You have been logged out.\n"
 quitout = "Exiting program...\n"
-eventout = "enter event name: " 
-dateout = "enter event date YYYYMMDD: " 
-qtyout = "enter number of tickets: "
+eventout = "Enter event name: " 
+dateout = "Enter event date YYYYMMDD: " 
+qtyout = "Enter number of tickets: "
 addconfirm = "Event added successfully\n"+greeting
 badaddconfirm = "Invalid quantity entered\n"+greeting
 badprivout = "You must be admin\n"
+baddeletetout = "Event not found or cannot delete tickets from it."
 exitout = "Exiting program...\n"
 
 TESTS = {
@@ -171,23 +172,51 @@ TESTS = {
         },
     },
     "add": {
-        "add_input_test": {
+        "add_input": {
             "input": ["login", "admin", "add", "Event1", "20231129", "100" , "q"],
-            "expected_output": greeting + loginout + greeting + eventout + dateout + qtyout + addconfirm + exitout
+            "expected_output": greeting + loginout + eventout + dateout + qtyout + addconfirm + exitout
         },
-        "add_eventlog_test": {
+        "add_eventlog": {
             "input": ["login", "admin", "add", "Event1", "20231129", "100", "logout", "login", "admin", "transaction", "q"],
-            "expected_output": greeting + loginout + greeting + eventout + dateout + qtyout + addconfirm + logoutout + 
+            "expected_output": greeting + loginout + eventout + dateout + qtyout + addconfirm + logoutout + 
             "05 Event1_________ 20231129 0300\n" + exitout
         },
-        "add_nologin_test":{
+        "add_nologin":{
             "input" :["login", "sales", "add", "q"],
-            "expected_output": greeting + loginout + greeting + badprivout + greeting +exitout
+            "expected_output": greeting + loginout + badprivout + greeting +exitout
         },
         "add_bad_qty" :{
             "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
-            "expected_output": greeting + loginout +greeting + eventout + dateout + qtyout + badaddconfirm + exitout
+            "expected_output": greeting + loginout + eventout + dateout + qtyout + badaddconfirm + exitout
         }   
+    },
+    "delete" :{
+        "delete_tickets" : {
+            "input" : ["login", "admin", "delete", "Event1", "10", "yes" , 'q'],
+            "expected_output": greeting + loginout + eventout + qtyout + 
+            "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
+            "Ticket: 10 deleted successfully from event Event1\n" +
+            greeting + exitout
+        },
+
+        "delete_ticket_transaction" : {
+            "input" : ["login", "admin", "delete", "Event1", "20231129", "10" ,"transaction","q"],
+            "expected_output": greeting + loginout + eventout + qtyout + 
+            "Ticket: 10 deleted successfully from event Event1" + 
+            "05 Event1_________ 20231129 0010\n"+ exitout
+        },
+        "delete_no_admin" : {
+            "input" : ["login", "sales", "delete", "q"],
+            "expected_output": greeting + loginout + badprivout + greeting +exitout
+        },
+        "delete_wrong_event" : {
+            "input" : ["login", "admin", "delete", "BadEvent", "q"],
+            "expected_output": greeting + loginout + eventout + baddeletetout + exitout
+        },
+        "delete_bad_quantity" : {
+            "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
+            "expected_output": greeting + loginout
+        },
     }
        
 }
