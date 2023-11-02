@@ -49,7 +49,7 @@ TESTS = {
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
-                                "You have been logged out\n" +
+                                "You have been logged out.\n" +
                                 "Please enter command: " +
                                 "Exiting program...\n"
         },
@@ -65,7 +65,7 @@ TESTS = {
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
-                                "You have been logged out\n" +
+                                "You have been logged out.\n" +
                                 "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
@@ -74,6 +74,91 @@ TESTS = {
                                 "Exiting program...\n"
         },
     },
+    "create_event": {
+        "create_event_success": {
+            "input": ["login", "admin", "create", "Event1", "20231129", "100", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event created successfully.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+            
+        },
+        "create_event_noadmin": {
+            "input": ["login", "sales", "create", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You are not authorized to create events.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "create_event_datefail": {
+            "input": ["login", "admin", "create", "Event1", "20231002", "100", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event date must be between tomorrow and 2 years from today.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "create_event_namefaillength": {
+            "input": ["login", "admin", "create", "Event1"*100, "20231129", "100", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event name must be less than or equal to 15 characters.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "create_event_namefailcopy": {
+            "input": ["login", "admin", "create", "Event1", "20231129", "100", "create", "Event1", "20231129", "100", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event created successfully.\n" +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event already exists.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "create_event_eventtransactioncheck": {
+            "input": ["login", "admin", "create", "Event1", "20231129", "100", "logout", "login", "admin", "transaction", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date (YYYYMMDD): " +
+                                "Enter number of tickets: "
+                                "Event created successfully.\n" +
+                                "Please enter command: " +
+                                "You have been logged out.\n" +
+                                "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "03 Event1_________ 20231129 0100\n" +
+                                "00\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+    },
+        
     
 }
 
