@@ -1,5 +1,4 @@
 from subprocess import Popen, PIPE, STDOUT
-import subprocess
 
 RUN_DIR = r'Assignment 2\main.py'
 
@@ -32,20 +31,6 @@ def runTest(input, test_name, expected_output):
         print(f"Expected output: {expected_output}")
         print(f"Actual output: {output}")
     print("--------------------------------------------------")
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
