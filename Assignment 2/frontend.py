@@ -1,5 +1,6 @@
 import logging
 from backend import Backend
+from datetime import datetime
 
 class Frontend:
     def __init__(self):
@@ -19,14 +20,14 @@ class Frontend:
         '''
         Login as sales or admin
         '''
-        while self.privilege == None:
-            userid = input("Enter the session type: ").lower()
-            if userid == "sales":
-                self.privilege = "sales"
-            elif userid == "admin":
-                self.privilege = "admin"
-            else:
-                print("Invalid session type. Please ender admin or sales")
+        userid = input("Enter the session type: ").lower()
+        if userid == "sales":
+            self.privilege = "sales"
+        elif userid == "admin":
+            self.privilege = "admin"
+        else:
+            print("Invalid session type. Please enter admin or sales")
+            return
                 
         # Create current events file if doesn't exist
         with open("current_events.txt", "a") as f:
@@ -47,7 +48,31 @@ class Frontend:
         if not self.privilege:
             print("You are not logged in")
             return
+        
+        # Append end code to current events
+        self.current_events.append("00")
+        
+        # Create transaction file from current events
+        with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
+            for event in self.current_events:
+                f.write(event)
+        
+        # Set current events to empty
+        self.current_events = []
+        
+        # Set login privledge to none
         self.privilege = None
+        print("You have been logged out")
+        
+    
+    def check_transaction_file(self):
+        with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "r") as f:
+            transaction_file = f.readlines()
+            if not transaction_file:
+                return False
+            
+            for line in transaction_file:
+                print(line)
              
         
     def create(self):
@@ -187,10 +212,18 @@ class Frontend:
         
     def main(self):
         while self.run:
-            command = input("please enter command: ").lower()
+            command = input("Please enter command: ").lower()
             
-            # If not logged in, only allow login command
-            if not self.privilege:
+            
+            # Only let non-logged in users use these commands
+            if command in ["exit", "quit", "q", 'x']:
+                print("Exiting program...")
+                self.run = False
+                continue
+            elif command == "transaction":
+                self.check_transaction_file()
+                continue
+            elif not self.privilege:
                 if command == "login":
                     self.login()
                 else:

@@ -3,26 +3,74 @@ from subprocess import Popen, PIPE, STDOUT
 RUN_DIR = r'Assignment 2\main.py'
 
 TESTS = {
-    "login_sales": {
-        "input": ["login", "sales", "q"],
-        "expected_output": "please enter command: " +
-                            "Enter the session type: " +
-                            "please enter command: " +
-                            "Exiting program...\n"
+    "login": {
+        "login_sales": {
+            "input": ["login", "sales", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "login_admin": {
+            "input": ["login", "admin", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "login_restricted": {
+            "input": ["add", "q"],
+            "expected_output": "Please enter command: " +
+                                "You are not logged in, please 'login' to continue\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "login_bad": {
+            "input": ["login", "bad", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Invalid session type. Please enter admin or sales\n" +
+                                "Please enter command: "
+                                "Exiting program...\n"
+        },
+        "login_restricted": {
+            "input": ["login", "admin", "login", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You are already logged in\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        }
     },
-    "login_admin": {
-        "input": ["login", "admin", "q"],
-        "expected_output": "please enter command: " +
-                            "Enter the session type: " +
-                            "please enter command: " +
-                            "Exiting program...\n"
-    },
-    "login_restricted": {
-        "input": ["add", "q"],
-        "expected_output": "please enter command: " +
-                            "You are not logged in, please 'login' to continue\n" +
-                            "please enter command: " +
-                            "Exiting program...\n"
+    "logout": {
+        "logout_success": {
+            "input": ["login", "admin", "logout", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You have been logged out\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "logout_nologin": {
+            "input": ["logout", "q"],
+            "expected_output": "Please enter command: " +
+                                "You are not logged in, please 'login' to continue\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "logout_transaction_file": {
+            "input": ["login", "admin", "logout", "transaction", "q"],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You have been logged out\n" +
+                                "Please enter command: " +
+                                "00\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
     },
     
 }
@@ -43,16 +91,18 @@ def runTest(input, test_name, expected_output):
         print(f"{test_name} test passed!")
     else:
         print(f"{test_name} test failed!")
-        print(f"Expected output: {expected_output}")
-        print(f"Actual output: {output}")
-    print("--------------------------------------------------")
+        print(f"Expected output: \t{expected_output}")
+        print(f"Actual output: \t\t{output}")
+    print("-"*50)
     
     
     
 if __name__ == "__main__":
     print("Running tests...")
-    print("--------------------------------------------------")
-    for test in TESTS:
-        runTest(TESTS[test]["input"], test, TESTS[test]["expected_output"])
+    for test_suite in TESTS:
+        print(f"Running {test_suite} test suite...")
+        print("="*75)
+        for test in TESTS[test_suite]:
+            runTest(TESTS[test_suite][test]["input"], test, TESTS[test_suite][test]["expected_output"])
 
     
