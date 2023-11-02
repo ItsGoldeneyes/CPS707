@@ -3,13 +3,28 @@ from subprocess import Popen, PIPE, STDOUT
 RUN_DIR = r'Assignment 2\main.py'
 
 TESTS = {
+    "login_sales": {
+        "input": ["login", "sales", "q"],
+        "expected_output": "please enter command: " +
+                            "Enter the session type: " +
+                            "please enter command: " +
+                            "Exiting program...\n"
+    },
     "login_admin": {
         "input": ["login", "admin", "q"],
-        "expected_output": "please enter command: \
-                            Enter the session type: \
-                            please enter command: \
-                            Exiting program...\n"
+        "expected_output": "please enter command: " +
+                            "Enter the session type: " +
+                            "please enter command: " +
+                            "Exiting program...\n"
     },
+    "login_restricted": {
+        "input": ["add", "q"],
+        "expected_output": "please enter command: " +
+                            "You are not logged in, please 'login' to continue\n" +
+                            "please enter command: " +
+                            "Exiting program...\n"
+    },
+    
 }
 
 
