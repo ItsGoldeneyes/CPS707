@@ -6,7 +6,7 @@ class Frontend:
     def __init__(self):
         self.privilege = None
         self.run = True
-        self.transaction_count=0
+        self.transactions = []
         self.current_events = []
         self.backend = Backend()
         
@@ -50,19 +50,19 @@ class Frontend:
             return
         
         # Append end code to current events
-        self.current_events.append("00")
+        self.transactions.append("00")
         
         # Create transaction file from current events
         with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
-            for event in self.current_events:
-                f.write(event)
+            for event in self.transactions:
+                f.write(event+"\n")
         
         # Set current events to empty
-        self.current_events = []
+        self.transactions = []
         
         # Set login privledge to none
         self.privilege = None
-        print("You have been logged out")
+        print("You have been logged out.")
         
     
     def check_transaction_file(self):
@@ -72,24 +72,52 @@ class Frontend:
                 return False
             
             for line in transaction_file:
-                print(line)
+                print(line, end="")
              
         
     def create(self):
         '''
         Create a new event
         '''
-        valid_input = False
+        if self.privilege != "admin":
+            print("You are not authorized to create events.")
+            return
+        
         # Test for valid input
-        while not valid_input:
-            event_name = input("Enter event name: ")
-            event_date = input("Enter event date (YYYYMMDD): ")
-            num_tickets = int(input("Enter number of tickets available: "))
-            valid_input = True
+        event_name = input("Enter event name: ")
+        event_date = input("Enter event date (YYYYMMDD): ")
+        num_tickets = int(input("Enter number of tickets: "))
+        
+        # Input validation
+        if len(event_name) > 15:
+            print("Event name must be less than or equal to 15 characters.")
+            return
+        if len(event_date) != 8 or not event_date.isdigit():
+            print("Event date must be in the format YYYYMMDD.")
+            print(len(event_date), event_date)
+            return
+        if int(event_date) <= int(datetime.now().strftime('%Y%m%d')) or int(event_date) > int(datetime.now().strftime('%Y%m%d')) + 20000:
+            print("Event date must be between tomorrow and 2 years from today.")
+            return
+        if num_tickets <= 0 or num_tickets >= 10000:
+            print("Number of tickets must be greater than 0 and less than 10000.")
+            return
+        # Check transaction file for event
+        for event in self.transactions:
+            if "03 " + event_name.replace(' ', '_').ljust(15, "_") in event:
+                print("Event already exists.")
+                return
+        # Check current events for event
+        for event in self.current_events:
+            if event_name.replace(' ', '_').ljust(15, "_") in event:
+                print("Event already exists.")
+                return
+            
         # Call the backend function to create the event
         # result = self.backend.create_event(event_name, event_date, num_tickets)
         result = True
         if result:
+            self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, "_")} {event_date} {str(num_tickets).rjust(4, '0')}")
             print("Event created successfully.")
         else:
             print("Failed to create the event.")
@@ -101,10 +129,9 @@ class Frontend:
         '''
         valid_input = False
         # Test for valid input
-        while not valid_input:
-            event_name = input("Enter the name of the event: ")
-            ticket_number = int(input("Enter the ticket number to delete: "))
-            valid_input = True
+        event_name = input("Enter the name of the event: ")
+        ticket_number = int(input("Enter the ticket number to delete: "))
+        valid_input = True
 
         # if not self.backend.event_exists(event_name):
         #     print("Event not found or cannot delete tickets from it.")
@@ -134,16 +161,15 @@ class Frontend:
         '''
         valid_input = False
         # Test for valid input
-        while not valid_input:
-            event_name = input("Enter the name of the event: ")
-            quantity = int(input("Enter the number of tickets to sell: "))
+        event_name = input("Enter the name of the event: ")
+        quantity = int(input("Enter the number of tickets to sell: "))
 
-            payment_method = input("Enter payment method: ")
-            card_number = input("Enter card number: ")
+        payment_method = input("Enter payment method: ")
+        card_number = input("Enter card number: ")
 
-            customer_name = input("Enter customer name: ")
-            customer_email = input("Enter customer email: ")
-            valid_input = True
+        customer_name = input("Enter customer name: ")
+        customer_email = input("Enter customer email: ")
+        valid_input = True
 
         # sale_result = self.backend.sell_tickets(event_name, quantity, payment_method, card_number, customer_name,
                                                 # customer_email)
@@ -161,16 +187,15 @@ class Frontend:
         '''
         valid_input = False
         # Test for valid input
-        while not valid_input:
-            event_name = input("enter event name: ")
-            '''
-            if condition not true:
-                print("Invalid event name")
-                continue
-            '''
-            event_date = input('enter event date YYYYMMDD: ')
-            num_tickets = input('enter number of tickets: ')
-            valid_input = True
+        event_name = input("enter event name: ")
+        '''
+        if condition not true:
+            print("Invalid event name")
+            continue
+        '''
+        event_date = input('enter event date YYYYMMDD: ')
+        num_tickets = input('enter number of tickets: ')
+        valid_input = True
         
         # result = self.backend.add_event(event_name, event_date, num_tickets)
         # if result == False:
