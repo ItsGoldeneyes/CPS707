@@ -185,32 +185,39 @@ class Frontend:
         '''
         Add a new event
         '''
-        valid_input = False
-        # Test for valid input
-        event_name = input("enter event name: ")
-        '''
-        if condition not true:
-            print("Invalid event name")
-            continue
-        '''
-        event_date = input('enter event date YYYYMMDD: ')
-        num_tickets = input('enter number of tickets: ')
-        valid_input = True
-        
-        # result = self.backend.add_event(event_name, event_date, num_tickets)
-        # if result == False:
-        #     print("Event already exists")
-        #     return
-        
-        print("Event added successfully")
-        
-        # Increment transaction count
-        self.transaction_count += 1
-        transaction_code = str(self.transaction_count).zfill(2)
-        
-        # Save transaction to log
-        event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
-        return event_transaction
+        if self.privilege != "admin":
+            print("You must be admin")
+        if self.privilege == "admin":
+            valid_input = False
+            # Test for valid input
+            event_name = input("enter event name: ")
+            '''
+            if condition not true:
+                print("Invalid event name")
+                continue
+            '''
+            event_date = input('enter event date YYYYMMDD: ')
+            num_tickets = input('enter number of tickets: ')
+            if int(num_tickets) < 1:
+                print("Invalid quantity entered")
+            else:
+                valid_input = True
+                
+                # result = self.backend.add_event(event_name, event_date, num_tickets)
+                # if result == False:
+                #     print("Event already exists")
+                #     return
+                
+                print("Event added successfully")
+                """ move to backend
+                # Increment transaction count
+                self.transaction_count += 1
+                transaction_code = str(self.transaction_count).zfill(2)
+                
+                # Save transaction to log
+                event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
+                return event_transaction
+            """
     
     def help(self):
         '''

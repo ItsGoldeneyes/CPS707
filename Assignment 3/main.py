@@ -6,12 +6,12 @@ greeting = "Please enter command: "
 loginout = "Enter the session type: "
 logoutout = "You have been logged out.\n"
 quitout = "Exiting program...\n"
-eventout = "Enter event name: " 
-dateout = "Enter event date (YYYYMMDD): " 
-qtyout = "Enter number of tickets: "
-addconfirm = "Event added successfully"
-badaddconfirm = "Invalid quantity entered"
-badprivout = "You must be admin"
+eventout = "enter event name: " 
+dateout = "enter event date YYYYMMDD: " 
+qtyout = "enter number of tickets: "
+addconfirm = "Event added successfully\n"+greeting
+badaddconfirm = "Invalid quantity entered\n"+greeting
+badprivout = "You must be admin\n"
 exitout = "Exiting program...\n"
 
 TESTS = {
@@ -172,7 +172,7 @@ TESTS = {
     },
     "add": {
         "add_input_test": {
-            "input": ["login", "admin", "add", "Event1", "20231129", "100" + 'q'],
+            "input": ["login", "admin", "add", "Event1", "20231129", "100" , "q"],
             "expected_output": greeting + loginout + greeting + eventout + dateout + qtyout + addconfirm + exitout
         },
         "add_eventlog_test": {
@@ -182,10 +182,10 @@ TESTS = {
         },
         "add_nologin_test":{
             "input" :["login", "sales", "add", "q"],
-            "expected_output": greeting + loginout + greeting + badprivout + exitout
+            "expected_output": greeting + loginout + greeting + badprivout + greeting +exitout
         },
         "add_bad_qty" :{
-            "input" : ["login", "admin", "add", "Event1", "20231129", "-1" + 'q'],
+            "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
             "expected_output": greeting + loginout +greeting + eventout + dateout + qtyout + badaddconfirm + exitout
         }   
     }
