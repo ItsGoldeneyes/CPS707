@@ -1,6 +1,18 @@
 from subprocess import Popen, PIPE, STDOUT
 
-RUN_DIR = r'Assignment 2\main.py'
+RUN_DIR = r'..\Assignment 2\main.py'
+
+greeting = "Please enter command: "
+loginout = "Enter the session type: "
+logoutout = "You have been logged out.\n"
+quitout = "Exiting program...\n"
+eventout = "Enter event name: " 
+dateout = "Enter event date (YYYYMMDD): " 
+qtyout = "Enter number of tickets: "
+addconfirm = "Event added successfully"
+badaddconfirm = "Invalid quantity entered"
+badprivout = "You must be admin"
+exitout = "Exiting program...\n"
 
 TESTS = {
     "login": {
@@ -158,8 +170,26 @@ TESTS = {
                                 "Exiting program...\n"
         },
     },
-        
-    
+    "add": {
+        "add_input_test": {
+            "input": ["login", "admin", "add", "Event1", "20231129", "100" + 'q'],
+            "expected_output": greeting + loginout + greeting + eventout + dateout + qtyout + addconfirm + exitout
+        },
+        "add_eventlog_test": {
+            "input": ["login", "admin", "add", "Event1", "20231129", "100", "logout", "login", "admin", "transaction", "q"],
+            "expected_output": greeting + loginout + greeting + eventout + dateout + qtyout + addconfirm + logoutout + 
+            "05 Event1_________ 20231129 0300\n" + exitout
+        },
+        "add_nologin_test":{
+            "input" :["login", "sales", "add", "q"],
+            "expected_output": greeting + loginout + greeting + badprivout + exitout
+        },
+        "add_bad_qty" :{
+            "input" : ["login", "admin", "add", "Event1", "20231129", "-1" + 'q'],
+            "expected_output": greeting + loginout +greeting + eventout + dateout + qtyout + badaddconfirm + exitout
+        }   
+    }
+       
 }
 
 
