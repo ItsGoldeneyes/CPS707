@@ -10,7 +10,7 @@ eventout = "Enter event name: "
 dateout = "Enter event date YYYYMMDD: " 
 qtyout = "Enter number of tickets: "
 addconfirm = "Event added successfully\n"+greeting
-badaddconfirm = "Invalid quantity entered\n"+greeting
+badqty = "Invalid quantity entered\n"+greeting
 badprivout = "You must be admin\n"
 baddeletetout = "Event not found or cannot delete tickets from it."
 exitout = "Exiting program...\n"
@@ -187,8 +187,12 @@ TESTS = {
         },
         "add_bad_qty" :{
             "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
-            "expected_output": greeting + loginout + eventout + dateout + qtyout + badaddconfirm + exitout
-        }   
+            "expected_output": greeting + loginout + eventout + dateout + qtyout + badqty + exitout
+        },
+        "add_bad_qty_type" :{
+            "input" : ["login", "admin", "add", "Event1", "20231129", "string" , 'q'],
+            "expected_output": greeting + loginout + eventout + dateout + qtyout + badqty + exitout
+        }  
     },
     "delete" :{
         "delete_tickets" : {
@@ -200,9 +204,10 @@ TESTS = {
         },
 
         "delete_ticket_transaction" : {
-            "input" : ["login", "admin", "delete", "Event1", "20231129", "10" ,"transaction","q"],
+            "input" : ["login", "admin", "delete", "Event1", "10", "yes","transaction","q"],
             "expected_output": greeting + loginout + eventout + qtyout + 
-            "Ticket: 10 deleted successfully from event Event1" + 
+            "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
+            "Ticket: 10 deleted successfully from event Event1\n" + greeting+
             "05 Event1_________ 20231129 0010\n"+ exitout
         },
         "delete_no_admin" : {
@@ -214,8 +219,8 @@ TESTS = {
             "expected_output": greeting + loginout + eventout + baddeletetout + exitout
         },
         "delete_bad_quantity" : {
-            "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
-            "expected_output": greeting + loginout
+            "input" : ["login", "admin", "delete", "Event1", "-1" , 'q'],
+            "expected_output": greeting + loginout + eventout + qtyout + badqty +exitout 
         },
     }
        

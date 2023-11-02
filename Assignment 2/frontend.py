@@ -128,31 +128,38 @@ class Frontend:
         Delete ticket from event
         '''
         valid_input = False
-        # Test for valid input
-        event_name = input("Enter event name: ")
-        ticket_number = int(input('Enter number of tickets: '))
-        valid_input = True
 
-        # if not self.backend.event_exists(event_name):
-        #     print("Event not found or cannot delete tickets from it.")
-        #     return
+        if self.privilege != "admin":
+            print("You must be admin")
 
-        # if not self.backend.ticket_exists(event_name, ticket_number):
-        #     print("Ticket not found or cannot be deleted.")
-        #     return
+        if self.privilege == "admin":
+       # Test for valid input
+            event_name = input("Enter event name: ")
+            ticket_number = int(input('Enter number of tickets: '))
+            valid_input = True
 
-        confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
+            # if not self.backend.event_exists(event_name):
+            #     print("Event not found or cannot delete tickets from it.")
+            #     return
 
-        if confirmation == 'yes':
-            # result = self.backend.delete_ticket(event_name,ticket_number)
-            result = True
+            # if not self.backend.ticket_exists(event_name, ticket_number):
+            #     print("Ticket not found or cannot be deleted.")
+            #     return
+            if (ticket_number > 0):
+                confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
 
-            if result:
-                print(f"Ticket: {ticket_number} deleted successfully from event {event_name}")
-            else:
-                print(f"Failed to delete Ticket: {ticket_number} successfully from event {event_name}")
-        else:
-            print("Ticket deletion canceled")
+                if confirmation == 'yes':
+                    # result = self.backend.delete_ticket(event_name,ticket_number)
+                    result = True
+
+                    if result:
+                        print(f"Ticket: {ticket_number} deleted successfully from event {event_name}")
+                    else:
+                        print(f"Failed to delete Ticket: {ticket_number} successfully from event {event_name}")
+                else:
+                    print("Ticket deletion canceled")
+            if (ticket_number < 0):
+                print("Invalid quantity entered")
 
 
     def sell(self):
