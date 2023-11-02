@@ -215,13 +215,10 @@ class Frontend:
             command = input("Please enter command: ").lower()
             
             
-            # Only let non-logged in users use these commands
+            # Force non-logged in users to login or quit
             if command in ["exit", "quit", "q", 'x']:
                 print("Exiting program...")
                 self.run = False
-                continue
-            elif command == "transaction":
-                self.check_transaction_file()
                 continue
             elif not self.privilege:
                 if command == "login":
@@ -247,6 +244,8 @@ class Frontend:
                     self.sell()
                 case ("help" | 'h'):
                     self.help()
+                case "transaction":
+                    self.check_transaction_file()
                 case ("exit" | "quit" | "q" | 'x'):
                     print("Exiting program...")
                     self.run = False

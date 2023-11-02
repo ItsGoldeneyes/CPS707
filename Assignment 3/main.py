@@ -61,11 +61,13 @@ TESTS = {
                                 "Exiting program...\n"
         },
         "logout_transaction_file": {
-            "input": ["login", "admin", "logout", "transaction", "q"],
+            "input": ["login", "admin", "logout", "login", "admin", "transaction", "q"],
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
                                 "You have been logged out\n" +
+                                "Please enter command: " +
+                                "Enter the session type: " +
                                 "Please enter command: " +
                                 "00\n" +
                                 "Please enter command: " +
