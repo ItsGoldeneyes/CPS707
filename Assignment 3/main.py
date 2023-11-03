@@ -287,7 +287,78 @@ TESTS = {
                                 "Please enter command: " +
                                 "Exiting program...\n"        
         },
-    }
+    },
+    "return" : {
+        "return_success" : {
+            "input" : ["login", "admin", "return", "Star Wars", "10", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "10 tickets returned from event Star Wars.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
+        },
+        "return_invalid_event" : {
+            "input" : ["login", "admin", "return", "BadEvent", "10", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Event does not exist.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
+        },
+    },
+    "sell" : {
+        "sell_success" : {
+            "input" : ["login", "admin", "sell", "Star Wars", "10", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "10 tickets sold from event Star Wars.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
+        },
+        "sell_invalid_event" : {
+            "input" : ["login", "admin", "sell", "BadEvent", "10", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Event does not exist.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
+        "sell_too_many_tickets_sales" : {
+            "input" : ["login", "sales", "sell", "Star Wars", "1000", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Not enough tickets available.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
+        },
+        "sell_not_too_many_tickets_sales" : {
+            "input" : ["login", "admin", "sell", "Star Wars", "999", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "999 tickets sold from event Star Wars.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
+        },
+                       
+    },
        
 }
 
