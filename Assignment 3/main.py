@@ -312,6 +312,17 @@ TESTS = {
                                 "Please enter command: " +
                                 "Exiting program...\n"       
         },
+        "sell_invalid_event" : {
+            "input" : ["login", "admin", "sell", "BadEvent", "10", 'q'],
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " + 
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Event does not exist.\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"
+        },
         "sell_too_many_tickets_sales" : {
             "input" : ["login", "sales", "sell", "Star Wars", "1000", 'q'],
             "expected_output": "Please enter command: " +
