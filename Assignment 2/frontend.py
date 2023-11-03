@@ -15,7 +15,7 @@ class Frontend:
                      level=logging.INFO,
                      format= "%(message)s")
         
-    
+
     def login(self):
         '''
         Login as sales or admin
@@ -135,16 +135,15 @@ class Frontend:
         if self.privilege == "admin":
        # Test for valid input
             event_name = input("Enter event name: ")
+            for event in self.current_events:
+                if event_name.replace(' ', '_').ljust(15, "_") in event:
+                    valid_input = True
+            if (valid_input == False) :
+                print("Event not found or cannot delete tickets from it.")
+                return
             ticket_number = int(input('Enter number of tickets: '))
             valid_input = True
 
-            # if not self.backend.event_exists(event_name):
-            #     print("Event not found or cannot delete tickets from it.\n")
-            #     return
-
-            # if not self.backend.ticket_exists(event_name, ticket_number):
-            #     print("Ticket not found or cannot be deleted.")
-            #     return
             if (ticket_number > 0):
                 confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
 
@@ -154,6 +153,8 @@ class Frontend:
 
                     if result:
                         print(f"Ticket: {ticket_number} deleted successfully from event {event_name}")
+                        event_transaction = "05_{}_{}".format(event_name, ticket_number)
+                        self.transactions.append(event_transaction)
                     else:
                         print(f"Failed to delete Ticket: {ticket_number} successfully from event {event_name}")
                 else:
@@ -190,7 +191,7 @@ class Frontend:
         
     def add(self):
         '''
-        Add a new event
+        Add tickets to event
         '''
         if self.privilege != "admin":
             print("You must be admin")
@@ -224,11 +225,12 @@ class Frontend:
                     # Increment transaction count
                     self.transaction_count += 1
                     transaction_code = str(self.transaction_count).zfill(2)
-                    
+                    """
                     # Save transaction to log
-                    event_transaction = "{}_{}_{}_{}".format(transaction_code,event_name,event_date,num_tickets)
-                    return event_transaction
-                """
+                event_transaction = "04_{}_{}_{}".format(event_name,event_date,num_tickets)
+                self.transactions.append(event_transaction)
+
+                
             except ValueError:
                 print("Invalid quantity entered")
             

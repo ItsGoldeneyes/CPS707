@@ -183,7 +183,12 @@ TESTS = {
                                 "Event added successfully\n" +
                                 "Please enter command: " +
                                 "You have been logged out.\n" +
-                                "05 Event1_________ 20231129 0300\n" + 
+                                "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "04_Event1_20231129_100\n" + 
+                                "00\n" +
+                                "Please enter command: " +
                                 "Exiting program...\n"       
         },
         "add_nologin":{
@@ -222,28 +227,34 @@ TESTS = {
     },
     "delete" :{
         "delete_tickets" : {
-            "input" : ["login", "admin", "delete", "Event1", "10", "yes" , 'q'],
+            "input" : ["login", "admin", "delete", "Star_Wars______", "10", "yes" , 'q'],
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
                                 "Enter event name: " +
                                 "Enter number of tickets: " +
-                                "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
-                                "Ticket: 10 deleted successfully from event Event1\n" +
+                                "Are you sure you want to delete 10 tickets from the event Star_Wars______? (yes/no): " +
+                                "Ticket: 10 deleted successfully from event Star_Wars______\n" +
                                 "Please enter command: " +
                                 "Exiting program...\n"       
         },
         "delete_ticket_transaction" : {
-            "input" : ["login", "admin", "delete", "Event1", "10", "yes","transaction","q"],
+            "input" : ["login", "admin", "delete", "Star_Wars______", "10", "yes","logout","login", "sales","transaction","q"],
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
                                 "Enter event name: " +
                                 "Enter number of tickets: " +
-                                "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
-                                "Ticket: 10 deleted successfully from event Event1\n" + 
+                                "Are you sure you want to delete 10 tickets from the event Star_Wars______? (yes/no): " +
+                                "Ticket: 10 deleted successfully from event Star_Wars______\n" + 
                                 "Please enter command: " +
-                                "05 Event1_________ 20231129 0010\n" + 
+                                "You have been logged out.\n" +
+                                "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "05_Star_Wars_______10\n" + 
+                                "00\n" +
+                                "Please enter command: " +
                                 "Exiting program...\n"       
         },
         "delete_no_admin" : {
@@ -262,10 +273,11 @@ TESTS = {
                                 "Please enter command: " +
                                 "Enter event name: " +
                                 "Event not found or cannot delete tickets from it.\n" + 
+                                "Please enter command: " +
                                 "Exiting program...\n"       
         },
         "delete_bad_quantity" : {
-            "input" : ["login", "admin", "delete", "Event1", "-1" , 'q'],
+            "input" : ["login", "admin", "delete", "Star_Wars______", "-1" , 'q'],
             "expected_output": "Please enter command: " +
                                 "Enter the session type: " +
                                 "Please enter command: " +
