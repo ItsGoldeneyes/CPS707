@@ -166,26 +166,35 @@ class Frontend:
         '''
         Sell tickets to customer
         '''
-        valid_input = False
         # Test for valid input
-        event_name = input("Enter the name of the event: ")
-        quantity = int(input("Enter the number of tickets to sell: "))
-
-        payment_method = input("Enter payment method: ")
-        card_number = input("Enter card number: ")
-
-        customer_name = input("Enter customer name: ")
-        customer_email = input("Enter customer email: ")
-        valid_input = True
-
-        # sale_result = self.backend.sell_tickets(event_name, quantity, payment_method, card_number, customer_name,
-                                                # customer_email)
-        sale_result = {"status": "success"}
-
-        if sale_result["status"] == "success":
-            print(f"Sale Successful!")
+        event_name = input("Enter event name: ")
+        ticket_number = input('Enter number of tickets: ')
+        
+        valid_name = False
+        # Check current events for event
+        for event in self.current_events:
+            if event_name.replace(' ', '_').ljust(15, "_") in event:
+                valid_name = True
+        if not valid_name:
+            print("Event does not exist.")
+            return
+        
+        if not ticket_number.isdigit():
+            print("Not enough tickets available.")
+            return
+        
+        if self.privilege != "admin":
+            if int(ticket_number) <= 0 or int(ticket_number) > 8:
+                print("Not enough tickets available.")
+                return
+        
+        # result = self.backend.return_ticket(event_name,ticket_number)
+        result = True
+        if result:
+            self.transactions.append(f"01 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
+            print(f"{ticket_number} tickets sold from event {event_name}.")
         else:
-            print("Sale failed")
+            print(f"Failed to sell {ticket_number} tickets successfully from event {event_name}.")
         
         
     def add(self):
@@ -231,6 +240,41 @@ class Frontend:
                 """
             except ValueError:
                 print("Invalid quantity entered")
+                
+    def return_tickets(self):
+        '''
+        Return tickets from event
+        '''
+        # Test for valid input
+        event_name = input("Enter event name: ")
+        ticket_number = input('Enter number of tickets: ')
+        
+        valid_name = False
+        # Check current events for event
+        for event in self.current_events:
+            if event_name.replace(' ', '_').ljust(15, "_") in event:
+                valid_name = True
+        if not valid_name:
+            print("Event does not exist.")
+            return
+        
+        if not ticket_number.isdigit():
+            print("Invalid ticket number.")
+            return
+        
+        if self.privilege != "admin":
+            if int(ticket_number) > 8 or int(ticket_number) < 0:
+                print("You can only return 8 tickets at a time.")
+                return
+    
+        # result = self.backend.return_ticket(event_name,ticket_number)
+        result = True
+        if result:
+            self.transactions.append(f"02 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
+            print(f"{ticket_number} tickets returned from event {event_name}.")
+        else:
+            print(f"Failed to returned {ticket_number} tickets successfully from event {event_name}.")
+    
             
     
     def help(self):
@@ -288,6 +332,8 @@ class Frontend:
                     self.delete()
                 case "sell":
                     self.sell()
+                case "return":
+                    self.return_tickets()
                 case ("help" | 'h'):
                     self.help()
                 case "transaction":
