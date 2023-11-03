@@ -1,0 +1,167 @@
+Running tests...
+Running login test suite...
+===========================================================================
+Running login_sales test...
+login_sales test passed!
+--------------------------------------------------
+Running login_admin test...
+login_admin test passed!
+--------------------------------------------------
+Running login_restricted test...
+login_restricted test passed!
+--------------------------------------------------
+Running login_bad test...
+login_bad test passed!
+--------------------------------------------------
+Running logout test suite...
+===========================================================================
+Running logout_success test...
+logout_success test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: You have been logged out.
+Please enter command: Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 282, in main
+    self.logout()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 56, in logout
+    with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'transaction_files/transaction_file20231102.txt'
+
+--------------------------------------------------
+Running logout_nologin test...
+logout_nologin test passed!
+--------------------------------------------------
+Running logout_transaction_file test...
+logout_transaction_file test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: You have been logged out.
+Please enter command: Enter the session type: Please enter command: 00
+Please enter command: Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 282, in main
+    self.logout()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 56, in logout
+    with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'transaction_files/transaction_file20231102.txt'
+
+--------------------------------------------------
+Running create_event test suite...
+===========================================================================
+Running create_event_success test...
+create_event_success test passed!
+--------------------------------------------------
+Running create_event_noadmin test...
+create_event_noadmin test passed!
+--------------------------------------------------
+Running create_event_datefail test...
+create_event_datefail test passed!
+--------------------------------------------------
+Running create_event_namefaillength test...
+create_event_namefaillength test passed!
+--------------------------------------------------
+Running create_event_namefailcopy test...
+create_event_namefailcopy test passed!
+--------------------------------------------------
+Running create_event_eventtransactioncheck test...
+create_event_eventtransactioncheck test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: Enter event name: Enter event date (YYYYMMDD): Enter number of tickets: Event created successfully.
+Please enter command: You have been logged out.
+Please enter command: Enter the session type: Please enter command: 03 Event1_________ 20231129 0100
+00
+Please enter command: Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Enter event name: Enter event date (YYYYMMDD): Enter number of tickets: Event created successfully.
+Please enter command: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 282, in main
+    self.logout()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 56, in logout
+    with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'transaction_files/transaction_file20231102.txt'
+
+--------------------------------------------------
+Running add test suite...
+===========================================================================
+Running add_input test...
+add_input test passed!
+--------------------------------------------------
+Running add_eventlog test...
+add_eventlog test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: Enter event name: Enter event date YYYYMMDD: Enter number of tickets: Event added successfully
+Please enter command: You have been logged out.
+05 Event1_________ 20231129 0300
+Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Enter event name: Enter event date YYYYMMDD: Enter number of tickets: Event added successfully
+Please enter command: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 282, in main
+    self.logout()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 56, in logout
+    with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'transaction_files/transaction_file20231102.txt'
+
+--------------------------------------------------
+Running add_nologin test...
+add_nologin test passed!
+--------------------------------------------------
+Running add_bad_qty test...
+add_bad_qty test passed!
+--------------------------------------------------
+Running add_bad_qty_type test...
+add_bad_qty_type test passed!
+--------------------------------------------------
+Running delete test suite...
+===========================================================================
+Running delete_tickets test...
+delete_tickets test passed!
+--------------------------------------------------
+Running delete_ticket_transaction test...
+delete_ticket_transaction test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: Enter event name: Enter number of tickets: Are you sure you want to delete 10 tickets from the event Event1? (yes/no): Ticket: 10 deleted successfully from event Event1
+Please enter command: 05 Event1_________ 20231129 0010
+Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Enter event name: Enter number of tickets: Are you sure you want to delete 10 tickets from the event Event1? (yes/no): Ticket: 10 deleted successfully from event Event1
+Please enter command: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 294, in main
+    self.check_transaction_file()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 69, in check_transaction_file
+    with open(f"transaction_files/transaction_file{datetime.now().strftime('%Y%m%d')}.txt", "r") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'transaction_files/transaction_file20231102.txt'
+
+--------------------------------------------------
+Running delete_no_admin test...
+delete_no_admin test passed!
+--------------------------------------------------
+Running delete_wrong_event test...
+delete_wrong_event test failed!
+Expected output: 	Please enter command: Enter the session type: Please enter command: Enter event name: Event not found or cannot delete tickets from it.Exiting program...
+
+Actual output: 		Please enter command: Enter the session type: Please enter command: Enter event name: Enter number of tickets: Traceback (most recent call last):
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\main.py", line 5, in <module>
+    frontend.main()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 288, in main
+    self.delete()
+  File "C:\Users\Acer Swift 3\Documents\Ryerson\2023 Fall\CPS707\cps707\Assignment 2\frontend.py", line 138, in delete
+    ticket_number = int(input('Enter number of tickets: '))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'q'
+
+--------------------------------------------------
+Running delete_bad_quantity test...
+delete_bad_quantity test passed!
+--------------------------------------------------
