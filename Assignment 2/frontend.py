@@ -139,7 +139,7 @@ class Frontend:
             valid_input = True
 
             # if not self.backend.event_exists(event_name):
-            #     print("Event not found or cannot delete tickets from it.")
+            #     print("Event not found or cannot delete tickets from it.\n")
             #     return
 
             # if not self.backend.ticket_exists(event_name, ticket_number):

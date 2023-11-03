@@ -1,19 +1,6 @@
 from subprocess import Popen, PIPE, STDOUT
 
-RUN_DIR = r'..\Assignment 2\main.py'
-
-greeting = "Please enter command: "
-loginout = "Enter the session type: "+greeting
-logoutout = "You have been logged out.\n"
-quitout = "Exiting program...\n"
-eventout = "Enter event name: " 
-dateout = "Enter event date YYYYMMDD: " 
-qtyout = "Enter number of tickets: "
-addconfirm = "Event added successfully\n"+greeting
-badqty = "Invalid quantity entered\n"+greeting
-badprivout = "You must be admin\n"
-baddeletetout = "Event not found or cannot delete tickets from it."
-exitout = "Exiting program...\n"
+RUN_DIR = r'Assignment 2\main.py'
 
 TESTS = {
     "login": {
@@ -170,57 +157,123 @@ TESTS = {
                                 "Please enter command: " +
                                 "Exiting program...\n"
         },
+        
     },
     "add": {
         "add_input": {
             "input": ["login", "admin", "add", "Event1", "20231129", "100" , "q"],
-            "expected_output": greeting + loginout + eventout + dateout + qtyout + addconfirm + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date YYYYMMDD: " +
+                                "Enter number of tickets: " +
+                                "Event added successfully\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         },
         "add_eventlog": {
             "input": ["login", "admin", "add", "Event1", "20231129", "100", "logout", "login", "admin", "transaction", "q"],
-            "expected_output": greeting + loginout + eventout + dateout + qtyout + addconfirm + logoutout + 
-            "05 Event1_________ 20231129 0300\n" + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date YYYYMMDD: " +
+                                "Enter number of tickets: " +
+                                "Event added successfully\n" +
+                                "Please enter command: " +
+                                "You have been logged out.\n" +
+                                "05 Event1_________ 20231129 0300\n" + 
+                                "Exiting program...\n"       
         },
         "add_nologin":{
             "input" :["login", "sales", "add", "q"],
-            "expected_output": greeting + loginout + badprivout + greeting +exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You must be admin\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         },
         "add_bad_qty" :{
             "input" : ["login", "admin", "add", "Event1", "20231129", "-1" , 'q'],
-            "expected_output": greeting + loginout + eventout + dateout + qtyout + badqty + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date YYYYMMDD: " +
+                                "Enter number of tickets: " +
+                                "Invalid quantity entered\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         },
         "add_bad_qty_type" :{
             "input" : ["login", "admin", "add", "Event1", "20231129", "string" , 'q'],
-            "expected_output": greeting + loginout + eventout + dateout + qtyout + badqty + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter event date YYYYMMDD: " +
+                                "Enter number of tickets: " +
+                                "Invalid quantity entered\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         }  
     },
     "delete" :{
         "delete_tickets" : {
             "input" : ["login", "admin", "delete", "Event1", "10", "yes" , 'q'],
-            "expected_output": greeting + loginout + eventout + qtyout + 
-            "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
-            "Ticket: 10 deleted successfully from event Event1\n" +
-            greeting + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
+                                "Ticket: 10 deleted successfully from event Event1\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         },
-
         "delete_ticket_transaction" : {
             "input" : ["login", "admin", "delete", "Event1", "10", "yes","transaction","q"],
-            "expected_output": greeting + loginout + eventout + qtyout + 
-            "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
-            "Ticket: 10 deleted successfully from event Event1\n" + greeting+
-            "05 Event1_________ 20231129 0010\n"+ exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Are you sure you want to delete 10 tickets from the event Event1? (yes/no): " +
+                                "Ticket: 10 deleted successfully from event Event1\n" + 
+                                "Please enter command: " +
+                                "05 Event1_________ 20231129 0010\n" + 
+                                "Exiting program...\n"       
         },
         "delete_no_admin" : {
             "input" : ["login", "sales", "delete", "q"],
-            "expected_output": greeting + loginout + badprivout + greeting +exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "You must be admin\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"       
         },
         "delete_wrong_event" : {
             "input" : ["login", "admin", "delete", "BadEvent", "q"],
-            "expected_output": greeting + loginout + eventout + baddeletetout + exitout
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Event not found or cannot delete tickets from it.\n" + 
+                                "Exiting program...\n"       
         },
         "delete_bad_quantity" : {
             "input" : ["login", "admin", "delete", "Event1", "-1" , 'q'],
-            "expected_output": greeting + loginout + eventout + qtyout + badqty +exitout 
+            "expected_output": "Please enter command: " +
+                                "Enter the session type: " +
+                                "Please enter command: " +
+                                "Enter event name: " +
+                                "Enter number of tickets: " +
+                                "Invalid quantity entered\n" +
+                                "Please enter command: " +
+                                "Exiting program...\n"        
         },
     }
        
