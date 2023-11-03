@@ -117,7 +117,7 @@ class Frontend:
         # result = self.backend.create_event(event_name, event_date, num_tickets)
         result = True
         if result:
-            self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, "_")} {event_date} {str(num_tickets).rjust(4, '0')}")
+            self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, '_')} {event_date} {str(num_tickets).rjust(4, '0')}")
             print("Event created successfully.")
         else:
             print("Failed to create the event.")
