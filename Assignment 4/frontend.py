@@ -1,6 +1,7 @@
 import logging
 from backend import Backend
 from datetime import datetime
+import os
 
 class Frontend:
     def __init__(self):
@@ -10,12 +11,6 @@ class Frontend:
         self.current_events = []
         self.backend = Backend()
         
-        # Configure logging
-        logging.basicConfig(filename='daily.log',
-                     level=logging.INFO,
-                     format= "%(message)s")
-        
-
     def login(self):
         '''
         Login as sales or admin
@@ -28,17 +23,17 @@ class Frontend:
         else:
             print("Invalid session type. Please enter admin or sales")
             return
-                
-        # Create current events file if doesn't exist
-        with open("current_events.txt", "a") as f:
-            pass
-        
+        # Create current events file if it doesn't exist
+        if not os.path.exists("current_events.txt"):
+            with open("current_events.txt", "w") as f:
+                f.write("")
+            
         # Verify current events file and import it
         with open("current_events.txt", "r") as f:
             current_events = f.readlines()
             if current_events:
                 self.current_events = current_events
-                # self.backend.import_events(current_events)
+                self.backend.import_events(current_events)
     
     
     def logout(self):
@@ -113,8 +108,6 @@ class Frontend:
                 print("Event already exists.")
                 return
             
-        # Call the backend function to create the event
-        # result = self.backend.create_event(event_name, event_date, num_tickets)
         result = True
         if result:
             self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, '_')} {event_date} {str(num_tickets).rjust(4, '0')}")
@@ -148,14 +141,12 @@ class Frontend:
                 confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
 
                 if confirmation == 'yes':
-                    # result = self.backend.delete_ticket(event_name,ticket_number)
-                    result = True
-
+                    result = self.backend.edit_tickets(event_name,-int(ticket_number))
                     if result:
-                        print(f"Ticket: {ticket_number} deleted successfully from event {event_name}")
+                        print(f"{ticket_number} tickets deleted successfully from event {event_name}")
                         self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
                     else:
-                        print(f"Failed to delete Ticket: {ticket_number} successfully from event {event_name}")
+                        print(f"Failed to delete {ticket_number} tickets successfully from event {event_name}")
                 else:
                     print("Ticket deletion canceled")
             if (ticket_number < 0):
@@ -188,8 +179,7 @@ class Frontend:
                 print("Not enough tickets available.")
                 return
         
-        # result = self.backend.return_ticket(event_name,ticket_number)
-        result = True
+        result = self.backend.edit_tickets(event_name,-int(ticket_number))
         if result:
             self.transactions.append(f"01 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
             print(f"{ticket_number} tickets sold from event {event_name}.")
@@ -223,21 +213,12 @@ class Frontend:
                 else:
                     valid_input = True
                     
-                    # result = self.backend.add_event(event_name, event_date, num_tickets)
-                    # if result == False:
-                    #     print("Event already exists")
-                    #     return
+                    result = self.backend.edit_tickets(event_name, num_tickets)
                     
                     print("Event added successfully")
-                    """ move to backend
-                    # Increment transaction count
-                    self.transaction_count += 1
-                    transaction_code = str(self.transaction_count).zfill(2)
-                    """
-                    # Save transaction to log
-                
+                    
+                # Save transaction to log
                 self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, '_')} {event_date} {str(num_tickets).rjust(4, '0')}")
-
                 
             except ValueError:
                 print("Invalid quantity entered")
@@ -268,7 +249,7 @@ class Frontend:
                 print("You can only return 8 tickets at a time.")
                 return
     
-        # result = self.backend.return_ticket(event_name,ticket_number)
+        result = self.backend.edit_tiCkets(event_name,ticket_number)
         result = True
         if result:
             self.transactions.append(f"02 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
