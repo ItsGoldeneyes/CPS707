@@ -118,39 +118,26 @@ class Frontend:
 
     def delete(self):
         '''
-        Delete ticket from event
+        Delete event
         '''
         valid_input = False
 
         if self.privilege != "admin":
             print("You must be admin")
+            return False
 
-        if self.privilege == "admin":
        # Test for valid input
-            event_name = input("Enter event name: ")
-            for event in self.current_events:
-                if event_name.replace(' ', '_').ljust(15, "_") in event:
-                    valid_input = True
-            if (valid_input == False) :
-                print("Event not found or cannot delete tickets from it.")
-                return
-            ticket_number = int(input('Enter number of tickets: '))
-            valid_input = True
-
-            if (ticket_number > 0):
-                confirmation = input(f"Are you sure you want to delete {ticket_number} tickets from the event {event_name}? (yes/no): ").lower()
-
-                if confirmation == 'yes':
-                    result = self.backend.edit_tickets(event_name,-int(ticket_number))
-                    if result:
-                        print(f"{ticket_number} tickets deleted successfully from event {event_name}")
-                        self.transactions.append(f"03 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
-                    else:
-                        print(f"Failed to delete {ticket_number} tickets successfully from event {event_name}")
-                else:
-                    print("Ticket deletion canceled")
-            if (ticket_number < 0):
-                print("Invalid quantity entered")
+        event_name = input("Enter event name: ")
+        for event in self.current_events:
+            if event_name.replace(' ', '_').ljust(15, "_") in event:
+                valid_input = True
+        if (valid_input == False) :
+            print("Event not found.")
+            return
+        
+        self.backend.delete_event(event_name)
+        
+        self.transactions.append(f"05 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 0000")
 
 
     def sell(self):
