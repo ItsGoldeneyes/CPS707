@@ -18,6 +18,12 @@ class Backend:
             f.write("END____________ 0000")
         return True
     
+    def delete_event(self, event):
+        # Delete event from current events file
+        del self.current_events[event]
+        return True
+    
+    
     def edit_tickets(self, event, tickets):
         # Edit tickets for event
         self.current_events[event] += tickets
