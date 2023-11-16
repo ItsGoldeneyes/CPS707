@@ -205,7 +205,7 @@ class Frontend:
                 else:
                     valid_input = True
                     
-                    result = self.backend.edit_tickets(event_name, num_tickets)
+                    self.backend.edit_tickets(event_name, num_tickets)
                     
                     print("Event added successfully")
                     
