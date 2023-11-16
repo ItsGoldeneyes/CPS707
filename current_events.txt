@@ -1,3 +1,2 @@
-Star_Wars______ 0123
-Infinity_War_2_ 0392
-END____________ 0000
+Star_Wars______ 0123 20231212
+Infinity_War_2_ 0392 20231129

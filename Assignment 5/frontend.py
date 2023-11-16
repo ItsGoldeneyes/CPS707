@@ -10,6 +10,9 @@ class Frontend:
         self.transactions = []
         self.current_events = []
         self.backend = Backend()
+
+    def send_current_events(self):
+        Backend.import_events(self, self.current_events)
         
     def login(self):
         '''
@@ -54,7 +57,8 @@ class Frontend:
         
         # Set current events to empty
         self.transactions = []
-        
+
+        Frontend.send_current_events(self)        
         # Set login privledge to none
         self.privilege = None
         print("You have been logged out.")
@@ -114,6 +118,7 @@ class Frontend:
             print("Event created successfully.")
         else:
             print("Failed to create the event.")
+
 
 
     def delete(self):
@@ -209,6 +214,8 @@ class Frontend:
                 
             except ValueError:
                 print("Invalid quantity entered")
+            except KeyError:
+                print("can not find event")
                 
     def return_tickets(self):
         '''
@@ -236,7 +243,7 @@ class Frontend:
                 print("You can only return 8 tickets at a time.")
                 return
     
-        result = self.backend.edit_tiCkets(event_name,ticket_number)
+        result = self.backend.edit_tickets(event_name,ticket_number)
         result = True
         if result:
             self.transactions.append(f"02 {event_name.replace(' ', '_').ljust(15, '_')} 00000000 {str(ticket_number).rjust(4, '0')}")
